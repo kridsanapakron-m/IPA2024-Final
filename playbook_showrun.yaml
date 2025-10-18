@@ -1,0 +1,17 @@
+---
+- name: Save running-config from router
+  hosts: routers
+  gather_facts: no
+
+  tasks:
+    - name: Get running-config
+      ios_command:
+        commands:
+          - enable
+          - show running-config
+      register: output
+
+    - name: Save output to temporary file
+      copy:
+        content: "{{ output.stdout[0] }}"
+        dest: "temp_show_run.txt"

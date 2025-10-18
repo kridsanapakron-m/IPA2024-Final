@@ -1,7 +1,6 @@
 from netmiko import ConnectHandler
 from pprint import pprint
-import os
-os.environ["NTC_TEMPLATES_DIR"] = os.path.join(os.getcwd(), "venv", "Lib", "site-packages", "ntc_templates", "templates")
+
 device_ip = "192.168.2.116"
 username = "admin"
 password = "cisco"
@@ -17,7 +16,6 @@ device_params = {
 def gigabit_status():
     ans = ""
     with ConnectHandler(**device_params) as ssh:
-        # ใช้คำสั่งที่ได้ผลกับ router (เช่น show ip interface brief)
         result = ssh.send_command("show ip interface brief", use_textfsm=True)
 
         up = 0
@@ -28,7 +26,7 @@ def gigabit_status():
         for intf in result:
             if intf["interface"].startswith("GigabitEthernet"):
                 interface_name = intf["interface"]
-                interface_state = intf["status"].lower()  # เช่น up, down, administratively down
+                interface_state = intf["status"].lower()
 
                 if "admin" in interface_state:
                     state_text = "administratively down"

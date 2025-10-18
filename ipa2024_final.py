@@ -12,6 +12,7 @@ import time
 import requests
 from restconf_final import create, enable, disable, delete, status
 from netmiko_final import gigabit_status
+from ansible_final import showrun
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -97,7 +98,7 @@ while True:
         elif command == "gigabit_status":
             responseMessage = gigabit_status()
         elif command == "showrun":
-            responseMessage = "Show running config logic here"
+            responseMessage = showrun()
         else:
             responseMessage = "Error: No command or unknown command"
         

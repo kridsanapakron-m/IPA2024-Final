@@ -8,7 +8,7 @@
 
 import json
 import time
-
+import glob
 import requests
 from restconf_final import create, enable, disable, delete, status
 from netmiko_final import gigabit_status
@@ -117,31 +117,27 @@ while True:
         # https://developer.webex.com/docs/basics for more detail
 
         if command == "showrun" and responseMessage == 'ok':
-            filename = "./show_running_config.txt"
-            fileobject = open(filename, "rb")
-            filetype = "text/plain"
-            postData = MultipartEncoder(
-            fields={
-                "roomId": roomIdToGetMessages,
-                "text": "show running config",
-                "files": (filename, fileobject, "text/plain")
-            }
-            )
-            HTTPHeaders = {
-            "Authorization": f"Bearer {ACCESS_TOKEN}",
-            "Content-Type": "application/yang-data+json",
-            }
-        # other commands only send text, or no attached file.
+                files = glob.glob("./show_run_66070006*")
+                latest_file = max(files, key=os.path.getmtime)
+                fileobject = open(latest_file, "rb")
+                filetype = "text/plain"
+                postData = MultipartEncoder(
+                    fields={
+                        "roomId": roomIdToGetMessages,
+                        "text": "show running config",
+                        "files": (os.path.basename(latest_file), fileobject, filetype)
+                        })
+                HTTPHeaders = {
+                    "Authorization": f"Bearer {ACCESS_TOKEN}",
+                    "Content-Type": postData.content_type,}
         else:
             postData = {"roomId": roomIdToGetMessages, "text": responseMessage}
             postData = json.dumps(postData)
-            # the Webex Teams HTTP headers, including the Authoriztion and Content-Type
             HTTPHeaders = {
             "Authorization": f"Bearer {ACCESS_TOKEN}",
             "Content-Type": "application/yang-data+json"
             }   
 
-        # Post the call to the Webex Teams message API.
         r = requests.post("https://webexapis.com/v1/messages", data=postData, headers=HTTPHeaders)
         if not r.status_code == 200:
             raise Exception(

@@ -50,13 +50,12 @@ def create(studentID):
 
     resp_check = requests.get(url, auth=basicauth, headers=headers, verify=False)
     if resp_check.status_code == 200:
-        return f"Cannot create: Interface {interface_name}"
-    
+        return f"Cannot create: Interface loopback {studentID}"
     resp = requests.put(url, data=json.dumps(yangConfig), auth=basicauth, headers=headers, verify=False)
     if 200 <= resp.status_code <= 299:
-        return f"Interface {interface_name} is created successfully"
+        return f"Interface loopback {studentID} is created successfully"
     else:
-        return f"Error. Status Code: {resp.status_code}"
+        return f"Cannot create: Interface loopback {studentID}"
 
 def delete(studentID):
     interface_name = f"Loopback{studentID}"
@@ -64,14 +63,14 @@ def delete(studentID):
     
     resp_check = requests.get(url, auth=basicauth, headers=headers, verify=False)
     if resp_check.status_code != 200:
-        return f"Cannot delete: Interface {interface_name}"
+        return f"Cannot delete: Interface loopback {studentID}"
 
     
     resp = requests.delete(url, auth=basicauth, headers=headers, verify=False)
     if 200 <= resp.status_code <= 299:
-        return f"Interface {interface_name} is deleted successfully"
+        return f"Interface loopback {studentID} is deleted successfully"
     else:
-        return f"Error. Status Code: {resp.status_code}"
+        return f"Cannot delete: Interface loopback {studentID}"
 
 def enable(studentID):
     interface_name = f"Loopback{studentID}"
@@ -79,14 +78,14 @@ def enable(studentID):
     
     resp_check = requests.get(url, auth=basicauth, headers=headers, verify=False)
     if resp_check.status_code != 200:
-        return f"Cannot enable: Interface {interface_name}"
+        return f"Cannot enable: Interface loopback {studentID}"
     
     data = {"ietf-interfaces:interface": {"enabled": True}}
     resp = requests.patch(url, data=json.dumps(data), auth=basicauth, headers=headers, verify=False)
     if 200 <= resp.status_code <= 299:
-        return f"Interface {interface_name} is enabled successfully"
+        return f"Interface loopback {studentID} is enabled successfully"
     else:
-        return f"Error. Status Code: {resp.status_code}"
+        return f"Cannot enable: Interface loopback {studentID}"
 
 def disable(studentID):
     interface_name = f"Loopback{studentID}"
@@ -94,12 +93,12 @@ def disable(studentID):
     
     resp_check = requests.get(url, auth=basicauth, headers=headers, verify=False)
     if resp_check.status_code != 200:
-        return f"Cannot shutdown: Interface {interface_name}"
+        return f"Cannot shutdown: Interface loopback {studentID}"
     
     data = {"ietf-interfaces:interface": {"enabled": False}}
     resp = requests.patch(url, data=json.dumps(data), auth=basicauth, headers=headers, verify=False)
     if 200 <= resp.status_code <= 299:
-        return f"Interface {interface_name} is shutdowned successfully"
+        return f"Interface loopback {studentID} is shutdowned successfully"
     else:
         return f"Cannot shutdown: Interface loopback {studentID}"
 def status(studentID):
@@ -112,6 +111,6 @@ def status(studentID):
         data = resp.json()
         enabled = data["ietf-interfaces:interface"]["enabled"]
         state = "enabled" if enabled else "disabled"
-        return f"Interface {interface_name} is {state}"
+        return f"Interface loopback {studentID} is {state}"
     else:
         return f"No Interface loopback {studentID}"

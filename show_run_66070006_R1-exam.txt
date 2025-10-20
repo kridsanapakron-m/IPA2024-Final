@@ -1,8 +1,8 @@
 Building configuration...
 
-Current configuration : 3712 bytes
+Current configuration : 3717 bytes
 !
-! Last configuration change at 02:22:06 UTC Sat Oct 18 2025
+! Last configuration change at 07:33:32 UTC Mon Oct 20 2025
 !
 version 16.9
 service timestamps debug datetime msec
@@ -11,7 +11,7 @@ platform qfp utilization monitor load 80
 no platform punt-keepalive disable-kernel-core
 platform console serial
 !
-hostname R0
+hostname R1-exam
 !
 boot-start-marker
 boot-end-marker

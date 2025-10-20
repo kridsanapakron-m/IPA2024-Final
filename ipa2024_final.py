@@ -13,6 +13,7 @@ import requests
 from restconf_final import create, enable, disable, delete, status
 from netmiko_final import gigabit_status
 from ansible_final import showrun
+from fine_iparoom import get_room_id
 import os
 from dotenv import load_dotenv
 load_dotenv()
@@ -26,7 +27,7 @@ ACCESS_TOKEN = os.getenv("webex_token")
 # 3. Prepare parameters get the latest message for messages API.
 
 # Defines a variable that will hold the roomId
-roomIdToGetMessages = os.getenv("room_id")
+roomIdToGetMessages = get_room_id("IPA2025")
 student_id = os.getenv("student_id")
 while True:
     # always add 1 second of delay to the loop to not go over a rate limit of API calls

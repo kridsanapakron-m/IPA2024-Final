@@ -6,7 +6,7 @@ load_dotenv()
 requests.packages.urllib3.disable_warnings()
 
 # Router IP Address
-router_ip = "192.168.2.116"
+router_ip = os.getenv("router_ip")
 
 # RESTCONF base URL
 base_url = f"https://{router_ip}/restconf/data/ietf-interfaces:interfaces"

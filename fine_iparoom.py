@@ -1,9 +1,10 @@
 import requests
 import os
+from dotenv import load_dotenv
 load_dotenv()
 
 def get_room_id(title):
-    ACCESS_TOKEN = os.getenv("WEBEX_ACCESS_TOKEN")
+    ACCESS_TOKEN = os.getenv("webex_token")
     url = "https://webexapis.com/v1/rooms"
     headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
 

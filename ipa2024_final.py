@@ -27,7 +27,7 @@ ACCESS_TOKEN = os.getenv("webex_token")
 # 3. Prepare parameters get the latest message for messages API.
 
 # Defines a variable that will hold the roomId
-roomIdToGetMessages = get_room_id("Test_ipa")
+roomIdToGetMessages = get_room_id("IPA2025")
 student_id = os.getenv("student_id")
 while True:
     # always add 1 second of delay to the loop to not go over a rate limit of API calls

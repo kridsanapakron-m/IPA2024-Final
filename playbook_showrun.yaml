@@ -10,7 +10,7 @@
           - show running-config
       register: output
       become: yes
-    - name: GATHER HOSTNAME FACTS
+    - name: HOSTNAME
       ios_facts:
       register: facts
       

@@ -10,6 +10,7 @@ def showrun():
     if "failed=0" in result and 'unreachable=0' in result:
         return "ok"
     else:
-        if "No existing session" in result:
+        print(result)
+        if "No existing session" in result or "timed out" in result:
             showrun()
         return "Error: Ansible"
